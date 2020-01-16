@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 // import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 import withHocs from './LoginHoc';
 
@@ -45,12 +46,18 @@ class Login extends Component {
 
     handleJWT = (event) => {
         event.preventDefault();
-        if (this.state.Login === 'login' && this.state.Password === 'pass'){
-            localStorage.setItem('token_access', 'key');
+
+        axios.post('https://auth.gearappi.com/auth/login', {
+            firstName: this.state.Login,
+            lastName: this.state.Password
+          })
+          .then(function (response) {
+            localStorage.setItem('token_access', response.access_token);
             window.location.reload();
-        }else{
-            this.setState({error: 'ERROR LOGIN!'})
-        }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
     render() {
