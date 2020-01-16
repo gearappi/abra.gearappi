@@ -48,11 +48,11 @@ class Login extends Component {
         event.preventDefault();
 
         axios.post('https://auth.gearappi.com/auth/login', {
-            firstName: this.state.Login,
-            lastName: this.state.Password
+            username: this.state.Login,
+            password: this.state.Password
           })
           .then(function (response) {
-            localStorage.setItem('token_access', response.access_token);
+            localStorage.setItem('token_access', response.data.access_token);
             window.location.reload();
           })
           .catch(function (error) {
